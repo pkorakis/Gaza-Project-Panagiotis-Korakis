@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaza: Past and Today</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="styles_gem2.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Merriweather', 'serif'] },
+                    colors: { warm: { 50: '#FDFBF7', 100: '#F7F3E8', 800: '#5D4037', 900: '#3E2723' } },
+                    // UPDATED SHADOWS: Made them blurry and softer
+                    boxShadow: {
+                        'directional': '-8px 8px 20px -5px rgba(0, 0, 0, 0.3)',
+                        'directional-hover': '-10px 10px 25px -5px rgba(0, 0, 0, 0.35)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-warm-50 text-gray-800 transition-colors duration-700 ease-in-out dark:bg-slate-900 dark:text-gray-100 font-sans">
+
+    <nav class="sticky top-0 z-50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-md transition-colors duration-500">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-earth-americas text-2xl text-amber-700 dark:text-amber-500"></i>
+                <h1 class="text-xl md:text-2xl font-serif font-bold tracking-tight" data-key="title">Gaza: Past and Today</h1>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="hidden lg:flex gap-1 bg-gray-100 dark:bg-slate-700 p-1 rounded-lg">
+                    <button onclick="switchTab('history')" class="nav-btn px-4 py-1.5 rounded-md text-sm font-medium transition-all" id="btn-history" data-key="navHistory">History</button>
+                    <button onclick="switchTab('un')" class="nav-btn px-4 py-1.5 rounded-md text-sm font-medium transition-all" id="btn-un" data-key="navUN">UN & Diplomacy</button>
+                    <button onclick="switchTab('present')" class="nav-btn px-4 py-1.5 rounded-md text-sm font-medium transition-all" id="btn-present" data-key="navPresent">The Polycrisis</button>
+                    <button onclick="switchTab('funds')" class="nav-btn px-4 py-1.5 rounded-md text-sm font-medium transition-all" id="btn-funds" data-key="navFunds">Fundraisers</button>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleLanguage()" class="p-2 text-sm font-bold rounded hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors border border-gray-300 dark:border-slate-600">
+                        <span id="lang-display">EN</span>
+                    </button>
+                    
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">
+                        <i class="fas fa-moon dark:hidden text-gray-600"></i>
+                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="lg:hidden border-t border-gray-200 dark:border-slate-700 flex justify-around p-2 bg-gray-50 dark:bg-slate-800 overflow-x-auto">
+            <button onclick="switchTab('history')" class="mobile-btn text-xs font-semibold p-2 whitespace-nowrap">History</button>
+            <button onclick="switchTab('un')" class="mobile-btn text-xs font-semibold p-2 whitespace-nowrap">UN</button>
+            <button onclick="switchTab('present')" class="mobile-btn text-xs font-semibold p-2 whitespace-nowrap">Polycrisis</button>
+            <button onclick="switchTab('funds')" class="mobile-btn text-xs font-semibold p-2 whitespace-nowrap">Funds</button>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8 md:py-12 min-h-screen max-w-6xl">
+
+        <section class="mb-12 text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 text-warm-900 dark:text-warm-100" data-key="introTitle">Understanding the Context</h2>
+            <p class="text-lg leading-relaxed text-gray-600 dark:text-gray-300" data-key="introText">
+                To truly comprehend the gravity of the current situation—a devastating <strong>polycrisis</strong> involving war, displacement, and systemic collapse—we must first navigate the complex history, the diplomatic stalemates, and the stories of the people involved.
+            </p>
+        </section>
+
+        <div id="tab-history" class="tab-content animate-fade-in">
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center mb-16">
+                <div class="relative w-full max-w-md h-96 rounded-lg shadow-directional overflow-hidden group cursor-pointer" onclick="toggleInfo('info-arafat')">
+                    <div id="slide-arafat-1" class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100">
+                        <img src="images\yasser-arafat.jpg" class="w-full h-full object-cover" alt="Arafat">
+                    </div>
+                    <div id="slide-arafat-2" class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0">
+                        <img src= "images\handshake.jpg" class="w-full h-full object-cover" alt="Handshake">
+                    </div>
+                    
+                    <div class="absolute top-4 right-4 bg-black/50 text-white px-2 py-1 rounded text-xs backdrop-blur-sm pointer-events-none">
+                        <i class="fas fa-images mr-1"></i> Slideshow
+                    </div>
+                    
+                    <div id="info-arafat" class="hidden absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 p-6 border-t-4 border-amber-600 info-overlay z-10">
+                        <h4 class="font-bold text-lg mb-1" data-key="arafatCardTitle">Yasser Arafat & The Accord</h4>
+                        <p class="text-sm" data-key="arafatCardText">From the leader of the PLO to the historic handshake with Rabin under Clinton's watch.</p>
+                    </div>
+                </div>
+
+                <div class="prose dark:prose-invert">
+                    <h3 class="text-xl font-bold mb-4 text-amber-800 dark:text-amber-500" data-key="arafatTitle">The Leader, The Accord, and The Nobel</h3>
+                    <p class="mb-4" data-key="arafatP1">
+                        <strong>Yasser Arafat</strong> was more than just a politician; he was the symbol of Palestinian nationalism. As the chairman of the PLO, he navigated the treacherous waters of Middle Eastern politics for decades. His leadership style was complex, transitioning from guerrilla warfare to diplomatic engagement, culminating in the historic Oslo Accords.
+                    </p>
+                    <p class="mb-4" data-key="arafatP2">
+                        In 1994, Yasser Arafat was awarded the <strong>Nobel Peace Prize</strong>, shared jointly with Shimon Peres and Yitzhak Rabin, for their efforts to create peace in the Middle East. The famous handshake on the White House lawn, overseen by Bill Clinton, remains an iconic image of hope that was ultimately unfulfilled.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center mb-16">
+                <div class="prose dark:prose-invert order-2 md:order-1">
+                    <h3 class="text-xl font-bold mb-4 text-amber-800 dark:text-amber-500" data-key="intifadaTitle">The Intifadas: Cycles of Uprising</h3>
+                    <p class="mb-4" data-key="intifadaP1">
+                        When the promises of peace withered, the <strong>Intifadas</strong> (uprisings) began. The First Intifada (1987) was largely a grassroots movement characterized by civil disobedience and stones. It showed the world the depth of Palestinian frustration.
+                    </p>
+                    <p data-key="intifadaP2">
+                        The Second Intifada (2000), triggered after the failure of the Camp David Summit, was far more violent. It militarized the conflict, leading to thousands of deaths and the construction of separation walls. These eras defined the current generation's trauma.
+                    </p>
+                </div>
+
+                <div class="relative w-full max-w-md h-96 rounded-lg shadow-directional overflow-hidden group cursor-pointer order-1 md:order-2" onclick="toggleInfo('info-intifada')">
+                    <div id="slide-intifada-1" class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100">
+                        <img src="images\first_Intifada.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all" alt="Intifada 1">
+                    </div>
+                    <div id="slide-intifada-2" class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0">
+                        <img src="images\second_intifada.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all" alt="Intifada 2">
+                    </div>
+
+                     <div class="absolute top-4 right-4 bg-black/50 text-white px-2 py-1 rounded text-xs backdrop-blur-sm pointer-events-none">
+                        <i class="fas fa-images mr-1"></i> Slideshow
+                    </div>
+
+                    <div id="info-intifada" class="hidden absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 p-6 border-t-4 border-amber-600 info-overlay z-10">
+                        <h4 class="font-bold text-lg mb-1" data-key="intifadaCardTitle">Resistance & Consequence</h4>
+                        <p class="text-sm" data-key="intifadaCardText">From stones against tanks to militarized conflict and checkpoints.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-un" class="hidden tab-content animate-fade-in">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <i class="fas fa-landmark text-3xl text-blue-600 dark:text-blue-400"></i>
+                        <h4 class="text-xl font-bold" data-key="unCardTitle">UN Status & The Superpowers</h4>
+                    </div>
+                    <p class="mb-4" data-key="unCardP1">
+                        In 2012, the UN General Assembly recognized Palestine as a <strong>"Non-member Observer State"</strong> (Res 67/19). This was a massive diplomatic victory.
+                    </p>
+                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-700">
+                        <h5 class="font-bold text-sm mb-2" data-key="unCardP2Header">Global Powers Stance:</h5>
+                        <ul class="text-sm space-y-2">
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-times-circle text-red-500"></i> 
+                                <span data-key="unUSA"><strong>USA:</strong> Does not recognize Palestine. Frequently uses Veto power in the Security Council.</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-check-circle text-green-500"></i> 
+                                <span data-key="unRussia"><strong>Russia:</strong> Recognizes the State of Palestine (inherited from USSR stance).</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <i class="fas fa-flag text-3xl text-blue-600 dark:text-blue-400"></i>
+                        <h4 class="text-xl font-bold" data-key="grCardTitle">The Greek Stance</h4>
+                    </div>
+                    <p class="mb-4" data-key="grCardP1">
+                        Greece has always been a historical friend to the Palestinian people, balancing its role as a NATO member and EU state.
+                    </p>
+                    <p class="text-sm text-gray-600 dark:text-gray-300" data-key="grCardP2">
+                        In <strong>December 2015</strong>, the Greek Parliament voted unanimously to recommend recognizing the State of Palestine. President Abbas attended this session. Despite this vote, the government has not yet formalized full diplomatic recognition, often citing complex geopolitical balances in the Eastern Mediterranean.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-present" class="hidden tab-content animate-fade-in">
+            <div class="mb-8 p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border-l-4 border-red-600">
+                <h3 class="text-2xl font-bold mb-3 font-serif" data-key="polyTitle">The Genocide & Polycrisis</h3>
+                <p class="mb-0" data-key="polyIntro">
+                    We are witnessing a "polycrisis"—the simultaneous collapse of health, shelter, and safety.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="relative w-full h-96 rounded-lg shadow-directional overflow-hidden group">
+                    <div id="slide-curr-1" class="absolute inset-0 transition-opacity duration-1000 opacity-100">
+                        <img src="images\child_palestine.jpg" class="w-full h-full object-cover" alt="Destruction">
+                    </div>
+                    <div id="slide-curr-2" class="absolute inset-0 transition-opacity duration-1000 opacity-0">
+                         <img src="images\hamas.jpg" class="w-full h-full object-cover grayscale" alt="People">
+                    </div>
+                    <div id="slide-curr-3" class="absolute inset-0 transition-opacity duration-1000 opacity-0">
+                         <img src="images\yemen_airstrike.jpg" class="w-full h-full object-cover" alt="Rubble">
+                    </div>
+                </div>
+
+                <div class="prose dark:prose-invert overflow-y-auto max-h-96 pr-2 custom-scroll">
+                    <h4 class="font-bold text-lg mb-2" data-key="polyTextHeader">How it Started & How it is Going</h4>
+                    <p class="text-sm mb-3" data-key="polyP1">
+                        The current escalation began on <strong>October 7th, 2023</strong>. Following an attack led by Hamas, Israel launched an unprecedented military campaign against the Gaza Strip. What began as a retaliation rapidly evolved into what many international legal experts and the ICJ are investigating as plausible genocide.
+                    </p>
+                    <p class="text-sm mb-3" data-key="polyP2">
+                        Months later, the situation has deteriorated into a humanitarian catastrophe. The bombardment has not ceased, targeting hospitals, schools, and refugee camps designated as "safe zones."
+                    </p>
+                    <p class="text-sm" data-key="polyP3">
+                        Today, famine is setting in. The healthcare system has effectively collapsed, with surgeries performed without anesthesia. The "polycrisis" means that even if the bombing stopped today, the lack of clean water and shelter would continue to kill civilians for months to come.
+                    </p>
+                </div>
+             </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                    <h4 class="text-sm font-bold mb-2 text-center" data-key="chart1Title">Conflict Scale (Deaths)</h4>
+                    <div class="h-48 relative w-full">
+                        <canvas id="casualtiesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md">
+                    <h4 class="text-sm font-bold mb-2 text-center" data-key="chart2Title">Displacement %</h4>
+                    <div class="h-48 relative w-full">
+                        <canvas id="displacementChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md md:col-span-2 lg:col-span-1">
+                    <h4 class="text-sm font-bold mb-2 text-center" data-key="chart3Title">Timeline of Casualties</h4>
+                    <div class="h-48 relative w-full">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-funds" class="hidden tab-content animate-fade-in">
+            <div class="mb-8 text-center">
+                <h3 class="text-2xl font-serif font-bold mb-2" data-key="fundsTitle">Support the Humanitarian Effort</h3>
+                <p class="text-gray-600 dark:text-gray-400" data-key="fundsSubtitle">Direct links to verified organizations working on the ground.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <a href="https://www.unrwa.org/" target="_blank" class="block group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-directional hover:border-blue-400">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full text-blue-600">
+                            <i class="fas fa-hand-holding-heart text-xl"></i>
+                        </div>
+                        <i class="fas fa-external-link-alt text-gray-400 text-sm"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2 text-blue-800 dark:text-blue-300">UNRWA</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-4" data-key="cardUNRWA">The primary UN agency for Palestinian refugees. Essential for food, education, and health.</p>
+                </a>
+
+                <a href="https://www.pcrf.net/" target="_blank" class="block group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-directional hover:border-red-400">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-red-100 dark:bg-red-900 p-3 rounded-full text-red-600">
+                            <i class="fas fa-child text-xl"></i>
+                        </div>
+                        <i class="fas fa-external-link-alt text-gray-400 text-sm"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2 text-red-800 dark:text-red-300">PCRF</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-4" data-key="cardPCRF">Palestine Children's Relief Fund. Providing medical care and urgent aid to injured children.</p>
+                </a>
+
+                <a href="https://www.msf.org/" target="_blank" class="block group relative bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-directional hover:border-yellow-400">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded-full text-yellow-600">
+                            <i class="fas fa-user-md text-xl"></i>
+                        </div>
+                        <i class="fas fa-external-link-alt text-gray-400 text-sm"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2 text-yellow-800 dark:text-yellow-300">Doctors Without Borders</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-4" data-key="cardMSF">Médecins Sans Frontières. Treating the wounded in hospitals under extreme conditions.</p>
+                </a>
+
+            </div>
+        </div>
+
+    </main>
+
+    <button onclick="scrollToTop()" id="scrollTopBtn" class="fixed bottom-6 right-6 bg-amber-600 hover:bg-amber-700 text-white p-4 rounded-full shadow-lg transition-all transform translate-y-20 opacity-0 z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <footer class="bg-gray-100 dark:bg-slate-800 py-8 mt-12 transition-colors duration-500">
+        <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>© 2026 Gaza: Past and Today.</p>
+        </div>
+    </footer>
+
+    <script src="script_gem2.js"></script>
+</body>
+</html>
